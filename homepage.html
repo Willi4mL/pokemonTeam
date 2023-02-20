@@ -1,12 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<title>Pokemon Manager</title>
+	<link rel="stylesheet" href="styles/base.css">
+	<script src="script/dom.js" type="module"></script>
+	<link rel="icon" href="images/pngegg.png">
 </head>
+
 <body>
-	
+	<header class="head">
+		<h1 class="head__heading">Pokémon manager</h1>
+	</header>
+	<main class="content">
+		<!-- Buttons -->
+		<nav class="content__button">
+			<button class="content__find-champion" id="findChampion">Find champions</button>
+			<button class="content__my-team" id="myTeam">My team</button>
+		</nav>
+
+		<!-- Search input -->
+		<nav class=content__search id="contentSearch">
+			<p class="content__search__text">Find Pokémon</p>
+			<input class="content__search-champion" id="searchChampion">
+		</nav>
+	</main>
+
 </body>
+
 </html>

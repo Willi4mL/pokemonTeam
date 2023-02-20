@@ -1,0 +1,40 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.head {
+	background-color: #33f1b2;
+	width: 100%;
+	padding: 1em 0;
+}
+
+.head__heading {
+	text-align: center;
+	font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+	font-weight: 100;
+}
+
+/* Buttons find and MyTeam */
+.content__button {
+	margin-top: 1em;
+	display: flex;
+	justify-content: space-around;
+}
+
+.content__my-team, .content__find-champion {
+	padding:0.3em 0.2em;
+	font-size: 1em;
+	border-radius: 0.3em;
+}
+
+.content__my-team:hover, .content__find-champion:hover {
+	cursor: pointer;
+}
+
+.content__search {
+	text-align: center;
+	margin-top: 1em;
+}
