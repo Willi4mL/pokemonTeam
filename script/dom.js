@@ -6,6 +6,7 @@ const searchPokemonNav = document.querySelector('#contentSearch')
 const searchPokemonInput = document.querySelector('#searchChampion')
 const cardContainer = document.querySelector('#pokemonCardList')
 
+
 // Visible or invisible 
 const invisible = 'none'
 const visible = 'block'
@@ -20,6 +21,8 @@ function pokemonStatFunction() {
 	}
 	return stat
 }
+
+
 
 // FindChampion button
 findChampionButton.addEventListener('click', async () => {
@@ -51,25 +54,29 @@ findChampionButton.addEventListener('click', async () => {
 myTeamButton.addEventListener('click', () => {
 	searchPokemonNav.style.display = invisible
 })
-
-// Searching fom pokemons
-searchPokemonInput.addEventListener('keypress', async (event) => {
-	if (event.key === 'Enter') {
-		const searchString = searchPokemonInput.value;
-		const url = pokemonUrl
-
-		try {
-			let response = await fetch(url)
-			let data = await response.json()
-			console.log(data)
-
-			const matchingPokemon = data.results.filter(pokemon => pokemon.name.includes(searchString))
-			matchingPokemon.forEach(pokemon => {
-				console.log(pokemon.name)
-			});
-
-		} catch (error) {
-			console.log('Felmeddelande', error.message)
-		}
-	}
-});
+let pokemonList = []
+const fetchPokemon = () => {
+    const baseUrl = pokemonUrl;
+    const pokemonList = [];
+  
+    for (let i = 1; i <= 151; i++) {
+      const url = `${baseUrl}${i}`;
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const pokemon = {
+            name: data.name,
+            image: data.sprites['front_default'],
+            type: data.types.map(type => type.type.name).join(', ')
+          };
+          pokemonList.push(pokemon);
+  
+          // Save the list to local storage
+          localStorage.setItem('pokemonList', JSON.stringify(pokemonList));
+        })
+        .catch(error => console.error(error));
+    }
+  };
+  console.log(pokemonList)
+  // Call the function to fetch and save the data
+  fetchPokemon();
