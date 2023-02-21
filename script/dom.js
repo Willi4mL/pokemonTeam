@@ -34,26 +34,15 @@ findChampionButton.addEventListener('click', async () => {
 	let response = await fetch(findUrl)
 	let data = await response.json()
 
-	// Creates div inside li for every pokemon
-	const allPokemons = data.results.filter(allPokemon => allPokemon.name)
-	allPokemons.forEach(allPokemon => {
-		console.log(allPokemon.name)
-
-		let pokemonStat = pokemonStatFunction()
-		let pokemonCard = document.createElement('div')
-		pokemonCard.setAttribute('class', 'pokemon-card')
-
-		pokemonStat.name.innerText = JSON.stringify(allPokemon.name)
-		pokemonCard.append(pokemonStat.name)
-		cardContainer.append(pokemonCard)
-
-	})
+fetchPokemon()
 })
 
 // MyTeam button
 myTeamButton.addEventListener('click', () => {
 	searchPokemonNav.style.display = invisible
 })
+
+// LocalStorage list
 let pokemonList = []
 const fetchPokemon = () => {
     const baseUrl = pokemonUrl;
@@ -67,16 +56,51 @@ const fetchPokemon = () => {
           const pokemon = {
             name: data.name,
             image: data.sprites['front_default'],
-            type: data.types.map(type => type.type.name).join(', ')
-          };
+            type: data.types.map(type => type.type.name).join(', '),
+			abilites: data.abilities.map(ability => ability.ability.name).join(', ')
+		};
+
+			const pokemonDiv = document.createElement('div');
+			pokemonDiv.setAttribute('class', 'div-card')
+			pokemonDiv.innerHTML = `
+			  <h3>${pokemon.name}</h3>
+			  <img src="${pokemon.image}" alt="${pokemon.name}">
+			  <p>Type: ${pokemon.type}</p>
+			  <p>Ability: ${pokemon.abilites}</p>
+			`;
+			cardContainer.appendChild(pokemonDiv);
+          
           pokemonList.push(pokemon);
-  
+ 
           // Save the list to local storage
           localStorage.setItem('pokemonList', JSON.stringify(pokemonList));
         })
         .catch(error => console.error(error));
     }
   };
-  console.log(pokemonList)
-  // Call the function to fetch and save the data
-  fetchPokemon();
+fetchPokemon()
+
+  searchPokemonInput.addEventListener('keypress', async (event) => {
+	if (event.key === 'Enter') {
+	  const searchString = searchPokemonInput.value;
+	  pokemonList = JSON.parse(localStorage.getItem('pokemonList'));
+  
+	  const matchingPokemon = pokemonList.filter(pokemon => pokemon.name.includes(searchString));
+  
+	  // Clear the existing content of the container
+	  cardContainer.innerHTML = '';
+  
+	  // Create a new div for each matching pokemon and append it to the container
+	  matchingPokemon.forEach(pokemon => {
+		const pokemonDiv = document.createElement('div');
+		pokemonDiv.setAttribute('class', 'div-card')
+		pokemonDiv.innerHTML = `
+		  <h2>${pokemon.name}</h2>
+		  <img src="${pokemon.image}" alt="${pokemon.name}">
+		  <p>Type: ${pokemon.type}</p>
+		`;
+		cardContainer.appendChild(pokemonDiv);
+	  });
+	}
+  });
+ 
