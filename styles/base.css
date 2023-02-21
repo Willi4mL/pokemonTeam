@@ -5,16 +5,20 @@
 	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-.head {
-	background-color: #33f1b2;
-	width: 100%;
-	padding: 1em 0;
+body {
+	background-image: url("images/head.png");
 }
 
-.head__heading {
-	text-align: center;
-	font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-	font-weight: 100;
+.head {
+	background-color:#a52a2a;
+	width: 100%;
+	padding: 1em 0;
+	display: flex;
+	justify-content: center;
+}
+
+.loggo {
+	width: max(20vw, 15em, 15rem);
 }
 
 /* Buttons find and MyTeam */
@@ -51,12 +55,12 @@
 	margin: 1em;
 }
 
-.div-card {
+.button-card {
 	border:1px solid black;
 	padding: 0.5em;
 	width: 13em;
 }
 
-.div-card:hover {
+.button-card:hover {
 	cursor: pointer;
 }
