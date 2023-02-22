@@ -6,11 +6,15 @@
 }
 
 body {
-	background-image: url("images/head.png");
+	background-image: url("/images/shopp.png");
+	height: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 .head {
-	background-color:#a52a2a;
+	background-color:#ca3c32;
 	width: 100%;
 	padding: 1em 0;
 	display: flex;
@@ -29,13 +33,22 @@ body {
 }
 
 .content__my-team, .content__find-champion {
-	padding:0.3em 0.2em;
-	font-size: 1em;
-	border-radius: 0.3em;
+	padding:0.4em 0.3em;
+	font-size: 1.2em;
+	border-radius: 0.2em;
+	color: #f0f0f0; 
+	background-color: #3a5ca8;
+	box-shadow: inset 1px 1px 4px black;
 }
 
 .content__my-team:hover, .content__find-champion:hover {
 	cursor: pointer;
+	background-color: #ca3c32;
+	box-shadow: inset 2px 1px 6px black;
+}
+
+.content__search__text {
+	color: #f0f0f0;
 }
 
 .content__search {
@@ -55,12 +68,19 @@ body {
 	margin: 1em;
 }
 
-.button-card {
+.div-card {
+	background-color: #f0f0f0;
 	border:1px solid black;
 	padding: 0.5em;
 	width: 13em;
+	text-align: center;
 }
 
-.button-card:hover {
+.div-card:hover {
 	cursor: pointer;
+}
+
+.card-button {
+	padding:0.2em;
+	margin-top: 1em;
 }
