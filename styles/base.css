@@ -76,11 +76,31 @@ body {
 	text-align: center;
 }
 
-.div-card:hover {
-	cursor: pointer;
+.button-div {
+	display: flex;
+	margin-top: 1em;
 }
 
 .card-button {
+	min-height: 2em;
 	padding:0.2em;
-	margin-top: 1em;
+}
+
+.card-button-reserve {
+	padding:0.2em;
+}
+
+.card-button:hover, .card-button-reserve:hover {
+	cursor: pointer;
+}
+
+.content__my-team-section {
+	display: flex;
+	flex-wrap: wrap;
+	color:#f0f0f0;
+}
+
+.content__my-team-section * {
+	display: flex;
+	flex-wrap: wrap;
 }

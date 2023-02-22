@@ -5,23 +5,15 @@ const myTeamButton = document.querySelector('#myTeam')
 const searchPokemonNav = document.querySelector('#contentSearch')
 const searchPokemonInput = document.querySelector('#searchChampion')
 const cardContainer = document.querySelector('#pokemonCardList')
-const buttonCard = document.querySelector('#buttonCard')
-
+// maybe delet later
+const myTeamSection = document.querySelector('#myTeamSection')
+const myTeamDivCard = document.querySelector('#myTeamDivCard')
 
 // Visible or invisible 
 const invisible = 'none'
 const visible = 'block'
 
-// FindChampion button
-findChampionButton.addEventListener('click', async () => {
-	searchPokemonNav.style.display = visible
-	const findUrl = pokemonUrl
-
-	let response = await fetch(findUrl)
-	let data = await response.json()
-
-	fetchPokemon()
-})
+myTeamSection.style.display = invisible
 
 // LocalStorage list and display divs
 let pokemonList = []
@@ -54,8 +46,13 @@ const fetchPokemon = () => {
 				pokemonCardButton.setAttribute('id', 'cardButton')
 				pokemonCardButton.innerText = 'Add to my team'
 
-				pokemonDiv.append(pokemonCardButton)
-				cardContainer.append(pokemonDiv);
+				const pokemonCardButtonReserve = document.createElement('button')
+				pokemonCardButtonReserve.setAttribute('class', 'card-button-reserve')
+				pokemonCardButtonReserve.setAttribute('id', 'cardButtonReserve')
+				pokemonCardButtonReserve.innerText = 'Add to reserve'
+
+				pokemonDiv.append(pokemonCardButton, pokemonCardButtonReserve)
+				cardContainer.append(pokemonDiv)
 
 				pokemonList.push(pokemon);
 
@@ -64,69 +61,142 @@ const fetchPokemon = () => {
 
 				addPokemonMyTeam()
 			})
-			.catch(error => console.error(error));
 	}
 };
 fetchPokemon()
 
 // Search pokemon and display card
-searchPokemonInput.addEventListener('keypress', async (event) => {
-	if (event.key === 'Enter') {
-		const searchString = searchPokemonInput.value;
-		pokemonList = JSON.parse(localStorage.getItem('pokemonList'));
+searchPokemonInput.addEventListener('input', () => {
+	const searchString = searchPokemonInput.value;
+	pokemonList = JSON.parse(localStorage.getItem('pokemonList'));
 
-		const matchingPokemon = pokemonList.filter(pokemon => pokemon.name.includes(searchString));
+	const matchingPokemon = pokemonList.filter(pokemon => pokemon.name.includes(searchString));
 
-		// Clear the existing content of the container
-		cardContainer.innerHTML = '';
+	// Clear the existing content of the container
+	cardContainer.innerHTML = '';
 
-		// Create a new div for each matching pokemon and append it to the container
-		matchingPokemon.forEach(pokemon => {
-			const pokemonDiv = document.createElement('div');
-			pokemonDiv.setAttribute('class', 'div-card')
-			pokemonDiv.setAttribute('id', 'divCard')
-			pokemonDiv.innerHTML =
-				`<h2 id="cardHeading">${pokemon.name}</h2>
+	// Create a new div for each matching pokemon and append it to the container
+	matchingPokemon.forEach(pokemon => {
+		const pokemonDiv = document.createElement('div');
+		pokemonDiv.setAttribute('class', 'div-card')
+		pokemonDiv.setAttribute('id', 'divCard')
+		pokemonDiv.innerHTML =
+			`<h2 id="cardHeading">${pokemon.name}</h2>
 				<img id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
 				<p id="cardType">Type: ${pokemon.type}</p>
 				<p id="cardAbility">Ability: ${pokemon.abilites}</p> `;
 
-			const pokemonCardButton = document.createElement('button')
-			pokemonCardButton.setAttribute('class', 'card-button')
-			pokemonCardButton.setAttribute('id', 'cardButton')
-			pokemonCardButton.innerText = 'Add to my team'
+		const pokemonCardButton = document.createElement('button')
+		pokemonCardButton.setAttribute('class', 'card-button')
+		pokemonCardButton.setAttribute('id', 'cardButton')
+		pokemonCardButton.innerText = 'Add to my team'
 
-			pokemonDiv.append(pokemonCardButton)
-
-			cardContainer.append(pokemonDiv);
-		});
-	}
+		pokemonDiv.append(pokemonCardButton)
+		cardContainer.append(pokemonDiv);
+	});
 });
 
+// FindChampion button
+findChampionButton.addEventListener('click', async () => {
+	searchPokemonNav.style.display = visible
+
+	// Clear content of the container
+	cardContainer.innerHTML = '';
+
+	// Dispaly everything from pokemonList in localstorage
+	let pokemonList = JSON.parse(localStorage.getItem('pokemonList')) || {};
+	Object.values(pokemonList).forEach(pokemon => {
+		const pokemonDiv = document.createElement('div');
+		pokemonDiv.setAttribute('class', 'div-card')
+		pokemonDiv.setAttribute('id', 'divCard')
+		pokemonDiv.innerHTML =
+			`<h2 id="cardHeading">${pokemon.name}</h2>
+		<img id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
+		<p id="cardType">Type: ${pokemon.type}</p>
+		<p id="cardAbility">Ability: ${pokemon.abilites}</p> `;
+
+		const pokemonCardButton = document.createElement('button')
+		pokemonCardButton.setAttribute('class', 'card-button')
+		pokemonCardButton.setAttribute('id', 'cardButton')
+		pokemonCardButton.innerText = 'Add to my team'
+
+		const pokemonCardButtonReserve = document.createElement('button')
+		pokemonCardButtonReserve.setAttribute('class', 'card-button-reserve')
+		pokemonCardButtonReserve.setAttribute('id', 'cardButtonReserve')
+		pokemonCardButtonReserve.innerText = 'Add to reserve'
+
+		const cardButtonDiv = document.createElement('div')
+		cardButtonDiv.setAttribute('class', 'button-div')
+		cardButtonDiv.setAttribute('id', 'buttonDiv')
+
+		pokemonDiv.append(pokemonCardButton, pokemonCardButtonReserve)
+		cardContainer.append(pokemonDiv);
+	});
+})
+
 // Add pokemons to my team in localstorage
-function addPokemonMyTeam (){
+function addPokemonMyTeam() {
 	let myTeamList = JSON.parse(localStorage.getItem('myTeamList')) || [];
-	
+
 	document.addEventListener('click', (event) => {
 		if (event.target.id === 'cardButton') {
 			const pokemonList = JSON.parse(localStorage.getItem('pokemonList'));
 			const pokemon = pokemonList.find(pokemon => pokemon.name === event.target.parentNode.querySelector('#cardHeading').textContent);
-	
-			if (Object.keys(myTeamList).length < 3) {
-	
-	
-				// Add the pokemon object to myTeamList object using the pokemon name as the key
-				myTeamList[pokemon.name] = pokemon;
-	
-	
-	
+
+			if (myTeamList.length < 3) {
+				// Add the pokemon object to the myTeamList array
+				myTeamList.push(pokemon);
 				// Save the updated myTeamList to localStorage
 				localStorage.setItem('myTeamList', JSON.stringify(myTeamList));
+			}
+		} else if (event.target.id === 'cardButtonRemove') {
+			const pokemonName = event.target.parentNode.querySelector('#cardHeading').textContent;
+			// Find the index of the pokemon to remove in the myTeamList array
+			const index = myTeamList.findIndex(pokemon => pokemon.name === pokemonName);
+			if (index !== -1) {
+				// Remove the pokemon from the myTeamList array
+				myTeamList.splice(index, 1);
+				// Save the updated myTeamList to localStorage
+				localStorage.setItem('myTeamList', JSON.stringify(myTeamList));
+				// Remove the pokemonDiv element from the DOM
+				event.target.parentNode.remove();
 			}
 		}
 	});
 }
 
+// Add pokemons to my reserve in localstorage
+function addPokemonMyTeamReserve() {
+	let myTeamReserveList = JSON.parse(localStorage.getItem('myTeamReserveList')) || [];
+
+	document.addEventListener('click', (event) => {
+		if (event.target.id === 'cardButtonReserve') {
+			const pokemonList = JSON.parse(localStorage.getItem('pokemonList'));
+			const pokemon = pokemonList.find(pokemon => pokemon.name === event.target.parentNode.querySelector('#cardHeading').textContent);
+
+			if (myTeamReserveList.length < 3) {
+				// Add the pokemon object to the myTeamList array
+				myTeamReserveList.push(pokemon);
+				// Save the updated myTeamList to localStorage
+				localStorage.setItem('myTeamReserveList', JSON.stringify(myTeamReserveList));
+			}
+		} else if (event.target.id === 'cardButtonRemove') {
+			const pokemonName = event.target.parentNode.querySelector('#cardHeading').textContent;
+			// Find the index of the pokemon to remove in the myTeamList array
+			const index = myTeamReserveList.findIndex(pokemon => pokemon.name === pokemonName);
+			if (index !== -1) {
+				// Remove the pokemon from the myTeamList array
+				myTeamReserveList.splice(index, 1);
+				// Save the updated myTeamList to localStorage
+				localStorage.setItem('myTeamList', JSON.stringify(myTeamReserveList));
+				// Remove the pokemonDiv element from the DOM
+				event.target.parentNode.remove();
+			}
+		}
+	});
+}
+
+addPokemonMyTeamReserve()
 addPokemonMyTeam()
 
 // MyTeam button
@@ -136,8 +206,9 @@ myTeamButton.addEventListener('click', () => {
 	// Clear content of the container
 	cardContainer.innerHTML = '';
 
-	const myTeamList = JSON.parse(localStorage.getItem('myTeamList')) || {};
-
+	myTeamSection.style.display = visible
+	// Add my team cards with removebutton
+	let myTeamList = JSON.parse(localStorage.getItem('myTeamList')) || {};
 	Object.values(myTeamList).forEach(pokemon => {
 		const pokemonDiv = document.createElement('div');
 		pokemonDiv.setAttribute('class', 'div-card');
@@ -156,29 +227,5 @@ myTeamButton.addEventListener('click', () => {
 		pokemonDiv.append(pokemonCardButtonRemove)
 
 		cardContainer.append(pokemonDiv);
-
+		});
 	});
-
-	// Event listener to remove pokemonDiv and the corresponding Pokemon from the local storage when the "Remove from my team" button is clicked
-	document.addEventListener('click', (event) => {
-		if (event.target.id === 'cardButtonRemove') {
-			// Get a reference to the parent element (the pokemonDiv)
-			const pokemonDiv = event.target.parentNode;
-
-			// Get the Pokemon name from the pokemonDiv
-			const pokemonName = pokemonDiv.querySelector('#cardHeading').textContent;
-
-			// Get the current myTeamList from the localStorage
-			const myTeamList = JSON.parse(localStorage.getItem('myTeamList')) || {};
-
-			// Delete the corresponding property for the deleted Pokemon
-			delete myTeamList[pokemonName];
-
-			// Save the updated myTeamList to the localStorage
-			localStorage.setItem('myTeamList', JSON.stringify(myTeamList));
-
-			// Remove the pokemonDiv element from the DOM
-			pokemonDiv.remove();
-		}
-	});
-});
