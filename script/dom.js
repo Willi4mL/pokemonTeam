@@ -5,15 +5,17 @@ const myTeamButton = document.querySelector('#myTeam')
 const searchPokemonNav = document.querySelector('#contentSearch')
 const searchPokemonInput = document.querySelector('#searchChampion')
 const cardContainer = document.querySelector('#pokemonCardList')
-// maybe delet later
+const reserveSection = document.querySelector('#reserveSection')
 const myTeamSection = document.querySelector('#myTeamSection')
 const myTeamDivCard = document.querySelector('#myTeamDivCard')
+const myReserveDivCard = document.querySelector('#myReserveDivCard')
 
 // Visible or invisible 
 const invisible = 'none'
 const visible = 'block'
 
 myTeamSection.style.display = invisible
+reserveSection.style.display = invisible
 
 // LocalStorage list and display divs
 let pokemonList = []
@@ -53,6 +55,7 @@ const fetchPokemon = () => {
 
 				pokemonDiv.append(pokemonCardButton, pokemonCardButtonReserve)
 				cardContainer.append(pokemonDiv)
+
 
 				pokemonList.push(pokemon);
 
@@ -174,21 +177,20 @@ function addPokemonMyTeamReserve() {
 			const pokemonList = JSON.parse(localStorage.getItem('pokemonList'));
 			const pokemon = pokemonList.find(pokemon => pokemon.name === event.target.parentNode.querySelector('#cardHeading').textContent);
 
-			if (myTeamReserveList.length < 3) {
-				// Add the pokemon object to the myTeamList array
-				myTeamReserveList.push(pokemon);
-				// Save the updated myTeamList to localStorage
-				localStorage.setItem('myTeamReserveList', JSON.stringify(myTeamReserveList));
-			}
+			// Add the pokemon object to the myTeamList array
+			myTeamReserveList.push(pokemon);
+			// Save the updated myTeamList to localStorage
+			localStorage.setItem('myTeamReserveList', JSON.stringify(myTeamReserveList))
+
 		} else if (event.target.id === 'cardButtonRemove') {
 			const pokemonName = event.target.parentNode.querySelector('#cardHeading').textContent;
 			// Find the index of the pokemon to remove in the myTeamList array
 			const index = myTeamReserveList.findIndex(pokemon => pokemon.name === pokemonName);
 			if (index !== -1) {
-				// Remove the pokemon from the myTeamList array
+				// Remove the pokemon from the myTeamReserveList array
 				myTeamReserveList.splice(index, 1);
 				// Save the updated myTeamList to localStorage
-				localStorage.setItem('myTeamList', JSON.stringify(myTeamReserveList));
+				localStorage.setItem('myTeamReserveList', JSON.stringify(myTeamReserveList));
 				// Remove the pokemonDiv element from the DOM
 				event.target.parentNode.remove();
 			}
@@ -205,8 +207,17 @@ myTeamButton.addEventListener('click', () => {
 
 	// Clear content of the container
 	cardContainer.innerHTML = '';
+	myReserveDivCard.innerHTML = '';
+	myTeamDivCard.innerHTML = '';
 
 	myTeamSection.style.display = visible
+	reserveSection.style.display = visible
+
+	addMyReserve()
+	addMyTeam()
+});
+
+function addMyTeam() {
 	// Add my team cards with removebutton
 	let myTeamList = JSON.parse(localStorage.getItem('myTeamList')) || {};
 	Object.values(myTeamList).forEach(pokemon => {
@@ -215,9 +226,9 @@ myTeamButton.addEventListener('click', () => {
 		pokemonDiv.setAttribute('id', 'divCard');
 		pokemonDiv.innerHTML =
 			`<h2 id="cardHeading">${pokemon.name}</h2>
-      <img id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
-      <p id="cardType">Type: ${pokemon.type}</p>
-      <p id="cardAbility">Ability: ${pokemon.abilites}</p>`;
+			  <img id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
+			  <p id="cardType">Type: ${pokemon.type}</p>
+			  <p id="cardAbility">Ability: ${pokemon.abilites}</p>`;
 
 		const pokemonCardButtonRemove = document.createElement('button')
 		pokemonCardButtonRemove.setAttribute('class', 'card-button')
@@ -226,6 +237,31 @@ myTeamButton.addEventListener('click', () => {
 
 		pokemonDiv.append(pokemonCardButtonRemove)
 
-		cardContainer.append(pokemonDiv);
-		});
+		myTeamDivCard.append(pokemonDiv);
 	});
+}
+
+function addMyReserve() {
+	// Add my reserve
+	let myTeamReserveList = JSON.parse(localStorage.getItem('myTeamReserveList')) || {};
+	Object.values(myTeamReserveList).forEach(pokemon => {
+		const pokemonDiv = document.createElement('div');
+		pokemonDiv.setAttribute('class', 'div-card');
+		pokemonDiv.setAttribute('id', 'divCard');
+		pokemonDiv.innerHTML =
+			`<h2 id="cardHeading">${pokemon.name}</h2>
+			  <img id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
+			  <p id="cardType">Type: ${pokemon.type}</p>
+			  <p id="cardAbility">Ability: ${pokemon.abilites}</p>`;
+
+		const pokemonCardButtonRemove = document.createElement('button')
+		pokemonCardButtonRemove.setAttribute('class', 'card-button')
+		pokemonCardButtonRemove.setAttribute('id', 'cardButtonRemove')
+		pokemonCardButtonRemove.innerText = 'Remove from my team'
+
+		pokemonDiv.append(pokemonCardButtonRemove)
+
+		myReserveDivCard.append(pokemonDiv);
+	});
+}
+
