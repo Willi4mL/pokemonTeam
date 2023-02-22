@@ -6,10 +6,9 @@
 }
 
 body {
-	background-image: url("/images/shopp.png");
-	height: 100%;
-	background-position: center;
-	background-repeat: no-repeat;
+	background-image: url("/images/background.png");
+	/* background-position: center; */
+	/* background-repeat: no-repeat; */
 	background-size: cover;
 }
 
@@ -51,7 +50,12 @@ body {
 
 /* Search input */
 .content__search__text {
+	font-size: 1.2em;
 	color: #f0f0f0;
+}
+
+.content__search-champion {
+	font-size: 1.2em;
 }
 
 .content__search {
@@ -109,7 +113,7 @@ body {
 	color: #f0f0f0;
 	text-align: center;
 	margin-bottom: 1em;
-	font-size: 2em;
+	font-size: 3em;
 }
 
 .linebreak {
@@ -117,7 +121,7 @@ body {
 }
 
 .content__reserve {
-	margin-bottom: 5em;
+	padding-bottom: 5em;
 }
 
 /* Link to top */
@@ -126,5 +130,5 @@ body {
 	margin-left: 1em;
 	font-size: 1.5em;
 	color: #f0f0f0;
-	bottom:2em;
+	bottom:1em;
 }

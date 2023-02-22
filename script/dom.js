@@ -94,7 +94,16 @@ searchPokemonInput.addEventListener('input', () => {
 		pokemonCardButton.setAttribute('id', 'cardButton')
 		pokemonCardButton.innerText = 'Add to my team'
 
-		pokemonDiv.append(pokemonCardButton)
+		const pokemonCardButtonReserve = document.createElement('button')
+		pokemonCardButtonReserve.setAttribute('class', 'card-button-reserve')
+		pokemonCardButtonReserve.setAttribute('id', 'cardButtonReserve')
+		pokemonCardButtonReserve.innerText = 'Add to reserve'
+
+		const cardButtonDiv = document.createElement('div')
+		cardButtonDiv.setAttribute('class', 'button-div')
+		cardButtonDiv.setAttribute('id', 'buttonDiv')
+
+		pokemonDiv.append(pokemonCardButton, pokemonCardButtonReserve)
 		cardContainer.append(pokemonDiv);
 	});
 });
@@ -212,7 +221,7 @@ myTeamButton.addEventListener('click', () => {
 
 	myTeamSection.style.display = visible
 	reserveSection.style.display = visible
-
+	
 	addMyReserve()
 	addMyTeam()
 });
