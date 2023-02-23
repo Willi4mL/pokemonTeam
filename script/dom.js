@@ -9,6 +9,7 @@ const reserveSection = document.querySelector('#reserveSection')
 const myTeamSection = document.querySelector('#myTeamSection')
 const myTeamDivCard = document.querySelector('#myTeamDivCard')
 const myReserveDivCard = document.querySelector('#myReserveDivCard')
+const myTeamHeading = document.querySelector('#myTeamHeading')
 
 // Visible or invisible 
 const invisible = 'none'
@@ -109,7 +110,7 @@ searchPokemonInput.addEventListener('input', () => {
 });
 
 // FindChampion button
-findChampionButton.addEventListener('click', async () => {
+findChampionButton.addEventListener('click', () => {
 	searchPokemonNav.style.display = visible
 
 	// Clear content of the container
@@ -229,6 +230,7 @@ myTeamButton.addEventListener('click', () => {
 function addMyTeam() {
 	// Add my team cards with removebutton
 	let myTeamList = JSON.parse(localStorage.getItem('myTeamList')) || {};
+	let completeTeamDisplayed = false;
 	Object.values(myTeamList).forEach(pokemon => {
 		const pokemonDiv = document.createElement('div');
 		pokemonDiv.setAttribute('class', 'div-card');
@@ -240,9 +242,29 @@ function addMyTeam() {
 			  <p id="cardAbility">Ability: ${pokemon.abilites}</p>`;
 
 		const pokemonCardButtonRemove = document.createElement('button')
-		pokemonCardButtonRemove.setAttribute('class', 'card-button')
+		pokemonCardButtonRemove.setAttribute('class', 'card-button-remove')
 		pokemonCardButtonRemove.setAttribute('id', 'cardButtonRemove')
-		pokemonCardButtonRemove.innerText = 'Remove from my team'
+		pokemonCardButtonRemove.innerText = 'Remove'
+
+		
+	// display the complete team message if myTeamList length is 3 and the message has not been displayed yet
+if (myTeamList.length === 3 && !completeTeamDisplayed) {
+	const completeTeam = document.createElement('h3');
+	completeTeam.setAttribute('class', 'complete-team');
+	completeTeam.setAttribute('id', 'completeTeam');
+	completeTeam.innerText = 'Complete team';
+  
+	myTeamHeading.append(completeTeam);
+  
+	completeTeamDisplayed = true;
+  }
+
+		pokemonCardButtonRemove.addEventListener('click', () => {
+			const completeTeamTextList = document.querySelectorAll('.complete-team');
+			completeTeamTextList.forEach(completeTeamText => {
+			  completeTeamText.style.display = 'none';
+			});
+		  });
 
 		pokemonDiv.append(pokemonCardButtonRemove)
 
@@ -264,9 +286,9 @@ function addMyReserve() {
 			  <p id="cardAbility">Ability: ${pokemon.abilites}</p>`;
 
 		const pokemonCardButtonRemove = document.createElement('button')
-		pokemonCardButtonRemove.setAttribute('class', 'card-button')
+		pokemonCardButtonRemove.setAttribute('class', 'card-button-remove')
 		pokemonCardButtonRemove.setAttribute('id', 'cardButtonRemove')
-		pokemonCardButtonRemove.innerText = 'Remove from my team'
+		pokemonCardButtonRemove.innerText = 'Remove'
 
 		pokemonDiv.append(pokemonCardButtonRemove)
 
