@@ -34,15 +34,20 @@ const fetchPokemon = () => {
 					image: data.sprites['front_default'],
 					type: data.types.map(type => type.type.name).join(', '),
 					abilites: data.abilities.map(ability => ability.ability.name).join(', ')
+
 				};
+
+				
+
+
 				const pokemonDiv = document.createElement('div');
 				pokemonDiv.setAttribute('class', 'div-card')
 				pokemonDiv.setAttribute('id', 'divCard')
 				pokemonDiv.innerHTML =
 					`<h2 class="card-name" id="cardHeading">${pokemon.name}</h2>
-				<img id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
-				<p id="cardType">Type: ${pokemon.type}</p>
-				<p id="cardAbility">Ability: ${pokemon.abilites}</p> `;
+				<img class="card-img" id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
+				<p class="card-type" id="cardType">Type: ${pokemon.type}</p>
+				<p class="card-ability" id="cardAbility">Ability: ${pokemon.abilites}</p> `
 
 				const pokemonCardButton = document.createElement('button')
 				pokemonCardButton.setAttribute('class', 'card-button')
@@ -53,6 +58,54 @@ const fetchPokemon = () => {
 				pokemonCardButtonReserve.setAttribute('class', 'card-button-reserve')
 				pokemonCardButtonReserve.setAttribute('id', 'cardButtonReserve')
 				pokemonCardButtonReserve.innerText = 'Add to reserve'
+
+				if (pokemon.type.includes('grass')) {
+					pokemonDiv.style.border = '10px solid #78c850';
+				  }
+				  if (pokemon.type.includes('fire')) {
+					pokemonDiv.style.border = '10px solid #f08030';
+				  }
+				  if (pokemon.type.includes('water')) {
+					pokemonDiv.style.border = '10px solid #6890f0';
+				  }
+				  if (pokemon.type.includes('bug')) {
+					pokemonDiv.style.border = '10px solid #a8b820';
+				  }
+				  if (pokemon.type.includes('normal')) {
+					pokemonDiv.style.border = '10px solid #a8a878';
+				  }
+				  if (pokemon.type.includes('poison')) {
+					pokemonDiv.style.border = '10px solid #a040a0';
+				  }
+				  if (pokemon.type.includes('electric')) {
+					pokemonDiv.style.border = '10px solid #f8d030';
+				  }
+				  if (pokemon.type.includes('ground')) {
+					pokemonDiv.style.border = '10px solid #e0c068';
+				  }
+				  if (pokemon.type.includes('fairy')) {
+					pokemonDiv.style.border = '10px solid #ee99ac';
+				  }
+				  if (pokemon.type.includes('fighting')) {
+					pokemonDiv.style.border = '10px solid #c03028';
+				  }
+				  if (pokemon.type.includes('psychic')) {
+					pokemonDiv.style.border = '10px solid #f85888';
+				  }
+				  if (pokemon.type.includes('rock')) {
+					pokemonDiv.style.border = '10px solid #b8a038';
+				  }
+				  if (pokemon.type.includes('ghost')) {
+					pokemonDiv.style.border = '10px solid #705898';
+				  }
+				  if (pokemon.type.includes('ice')) {
+					pokemonDiv.style.border = '10px solid #98d8d8';
+				  }
+				  if (pokemon.type.includes('dragon')) {
+					pokemonDiv.style.border = '10px solid #7038f8';
+				  }
+
+				
 
 				pokemonDiv.append(pokemonCardButton, pokemonCardButtonReserve)
 				cardContainer.append(pokemonDiv)
@@ -85,10 +138,10 @@ searchPokemonInput.addEventListener('input', () => {
 		pokemonDiv.setAttribute('class', 'div-card')
 		pokemonDiv.setAttribute('id', 'divCard')
 		pokemonDiv.innerHTML =
-			`<h2 id="cardHeading">${pokemon.name}</h2>
-				<img id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
-				<p id="cardType">Type: ${pokemon.type}</p>
-				<p id="cardAbility">Ability: ${pokemon.abilites}</p> `;
+		`<h2 class="card-name" id="cardHeading">${pokemon.name}</h2>
+			<img class="card-img" id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
+				<p class="card-type" id="cardType">Type: ${pokemon.type}</p>
+				<p class="card-ability" id="cardAbility">Ability: ${pokemon.abilites}</p> `
 
 		const pokemonCardButton = document.createElement('button')
 		pokemonCardButton.setAttribute('class', 'card-button')
@@ -125,10 +178,10 @@ findChampionButton.addEventListener('click', () => {
 		pokemonDiv.setAttribute('class', 'div-card')
 		pokemonDiv.setAttribute('id', 'divCard')
 		pokemonDiv.innerHTML =
-			`<h2 id="cardHeading">${pokemon.name}</h2>
-		<img id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
-		<p id="cardType">Type: ${pokemon.type}</p>
-		<p id="cardAbility">Ability: ${pokemon.abilites}</p> `;
+		`<h2 class="card-name" id="cardHeading">${pokemon.name}</h2>
+			<img class="card-img" id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
+			<p class="card-type" id="cardType">Type: ${pokemon.type}</p>
+			<p class="card-ability" id="cardAbility">Ability: ${pokemon.abilites}</p> `
 
 		const pokemonCardButton = document.createElement('button')
 		pokemonCardButton.setAttribute('class', 'card-button')
@@ -224,10 +277,18 @@ myTeamButton.addEventListener('click', () => {
 
 	myTeamSection.style.display = visible
 	reserveSection.style.display = visible
-	
+
 	addMyReserve()
 	addMyTeam()
 });
+
+// Complete team text
+const completeTeam = document.createElement('h3');
+completeTeam.setAttribute('class', 'complete-team');
+completeTeam.setAttribute('id', 'completeTeam');
+completeTeam.innerText = 'Complete team';
+completeTeam.style.display = invisible
+myTeamHeading.append(completeTeam);
 
 function addMyTeam() {
 	// Add my team cards with removebutton
@@ -238,38 +299,31 @@ function addMyTeam() {
 		pokemonDiv.setAttribute('class', 'div-card');
 		pokemonDiv.setAttribute('id', 'divCard');
 		pokemonDiv.innerHTML =
-			`<h2 id="cardHeading">${pokemon.name}</h2>
-			  <img id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
-			  <p id="cardType">Type: ${pokemon.type}</p>
-			  <p id="cardAbility">Ability: ${pokemon.abilites}</p>`;
+		`<h2 class="card-name" id="cardHeading">${pokemon.name}</h2>
+				<img class="card-img" id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
+				<p class="card-type" id="cardType">Type: ${pokemon.type}</p>
+				<p class="card-ability" id="cardAbility">Ability: ${pokemon.abilites}</p> `
 
 		const pokemonCardButtonRemove = document.createElement('button')
 		pokemonCardButtonRemove.setAttribute('class', 'card-button-remove')
 		pokemonCardButtonRemove.setAttribute('id', 'cardButtonRemove')
 		pokemonCardButtonRemove.innerText = 'Remove'
 
-		
-	// display the complete team message if myTeamList length is 3 and the message has not been displayed yet
-if (myTeamList.length === 3 && !completeTeamDisplayed) {
-	const completeTeam = document.createElement('h3');
-	completeTeam.setAttribute('class', 'complete-team');
-	completeTeam.setAttribute('id', 'completeTeam');
-	completeTeam.innerText = 'Complete team';
-  
-	myTeamHeading.append(completeTeam);
-  
-	completeTeamDisplayed = true;
-  }
+		// If my team equals 3 display complete team text
+		if (myTeamList.length === 3) {
+			completeTeam.style.display = visible
+			completeTeamDisplayed = true;
+		}
 
 		pokemonCardButtonRemove.addEventListener('click', () => {
 			const completeTeamTextList = document.querySelectorAll('.complete-team');
 			completeTeamTextList.forEach(completeTeamText => {
-			  completeTeamText.style.display = 'none';
+				completeTeamText.style.display = 'none';
 			});
-		  });
+			completeTeamDisplayed = false; // reset the flag when the "Complete team" heading is hidden
+		});
 
 		pokemonDiv.append(pokemonCardButtonRemove)
-
 		myTeamDivCard.append(pokemonDiv);
 	});
 }
@@ -282,10 +336,10 @@ function addMyReserve() {
 		pokemonDiv.setAttribute('class', 'div-card');
 		pokemonDiv.setAttribute('id', 'divCard');
 		pokemonDiv.innerHTML =
-			`<h2 id="cardHeading">${pokemon.name}</h2>
-			  <img id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
-			  <p id="cardType">Type: ${pokemon.type}</p>
-			  <p id="cardAbility">Ability: ${pokemon.abilites}</p>`;
+		`<h2 class="card-name" id="cardHeading">${pokemon.name}</h2>
+			<img class="card-img" id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
+			<p class="card-type" id="cardType">Type: ${pokemon.type}</p>
+			<p class="card-ability" id="cardAbility">Ability: ${pokemon.abilites}</p> `
 
 		const pokemonCardButtonRemove = document.createElement('button')
 		pokemonCardButtonRemove.setAttribute('class', 'card-button-remove')
