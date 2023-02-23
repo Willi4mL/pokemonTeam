@@ -115,6 +115,8 @@ findChampionButton.addEventListener('click', () => {
 
 	// Clear content of the container
 	cardContainer.innerHTML = '';
+	myTeamSection.style.display = invisible
+	reserveSection.style.display = invisible
 
 	// Dispaly everything from pokemonList in localstorage
 	let pokemonList = JSON.parse(localStorage.getItem('pokemonList')) || {};
@@ -295,4 +297,5 @@ function addMyReserve() {
 		myReserveDivCard.append(pokemonDiv);
 	});
 }
+
 
