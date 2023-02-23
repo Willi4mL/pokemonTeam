@@ -127,6 +127,10 @@ body {
 	font-size: 0.5em;
 }
 
+.card-name {
+	text-transform: capitalize;
+}
+
 .content__my-team-section, .content__reserve-section {
 	margin-right: 2em;
 	margin-left: 2em;

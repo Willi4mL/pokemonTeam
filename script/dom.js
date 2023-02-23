@@ -39,7 +39,7 @@ const fetchPokemon = () => {
 				pokemonDiv.setAttribute('class', 'div-card')
 				pokemonDiv.setAttribute('id', 'divCard')
 				pokemonDiv.innerHTML =
-					`<h2 id="cardHeading">${pokemon.name}</h2>
+					`<h2 class="card-name" id="cardHeading">${pokemon.name}</h2>
 				<img id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
 				<p id="cardType">Type: ${pokemon.type}</p>
 				<p id="cardAbility">Ability: ${pokemon.abilites}</p> `;
