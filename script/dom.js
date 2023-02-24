@@ -10,6 +10,7 @@ const myTeamSection = document.querySelector('#myTeamSection')
 const myTeamDivCard = document.querySelector('#myTeamDivCard')
 const myReserveDivCard = document.querySelector('#myReserveDivCard')
 const myTeamHeading = document.querySelector('#myTeamHeading')
+const fullTeam = document.querySelector('#fullTeam')
 
 // Visible or invisible 
 const invisible = 'none'
@@ -17,6 +18,7 @@ const visible = 'block'
 
 myTeamSection.style.display = invisible
 reserveSection.style.display = invisible
+fullTeam.style.display = invisible
 
 // Card border color
 const typeBorderColors = {
@@ -72,6 +74,7 @@ const fetchPokemon = () => {
 					type: data.types.map(type => type.type.name),
 					abilities: data.abilities.map(ability => ability.ability.name)
 				};
+
 				const pokemonDiv = document.createElement('div');
 				pokemonDiv.setAttribute('class', 'div-card');
 				pokemonDiv.setAttribute('id', 'divCard');
@@ -214,6 +217,10 @@ function addPokemonMyTeam() {
 		if (event.target.id === 'cardButton') {
 			const pokemonList = JSON.parse(localStorage.getItem('pokemonList'));
 			const pokemon = pokemonList.find(pokemon => pokemon.name === event.target.parentNode.querySelector('#cardHeading').textContent);
+
+			if(myTeamList.length === 2){
+				fullTeam.style.display = visible
+			}
 
 			if (myTeamList.length < 3) {
 				// Add the pokemon object to the myTeamList array
@@ -387,10 +394,9 @@ function addMyReserve() {
 			pokemonDiv.style.backgroundColor = `${typeColors[firstType]}`;
 		}
 
+		addPokemonMyTeam()
 		pokemonDiv.append(pokemonCardButtonRemove)
 
 		myReserveDivCard.append(pokemonDiv);
 	});
 }
-
-
