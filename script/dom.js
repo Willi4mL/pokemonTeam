@@ -18,8 +18,8 @@ const visible = 'block'
 myTeamSection.style.display = invisible
 reserveSection.style.display = invisible
 
-// LocalStorage list and display divs
-const typeColors = {
+// Card border color
+const typeBorderColors = {
 	grass: '#78c850',
 	fire: '#f08030',
 	water: '#6890f0',
@@ -36,6 +36,26 @@ const typeColors = {
 	electric: '#f8d030',
 	rock: '#b8a038'
 };
+
+// Card color
+const typeColors = {
+	grass: '#E6F5DE',
+	fire: '#FFE2CE',
+	water: '#EDF2FE',
+	bug: '#F3FBB2',
+	normal: '#FFFFF3',
+	poison: '#ECD6EC',
+	ground: '#FFF9E7',
+	fighting: '#FFC4C1',
+	fairy: '#FCF6F7',
+	psychic: '#FEE5ED',
+	ghost: '#C8C2D3',
+	ice: '#DDF5F5',
+	dragon: '#C8B3F9',
+	electric: '#FFF1B7',
+	rock: '#FFF5C9'
+};
+// LocalStorage list and display divs
 let pokemonList = [];
 const fetchPokemon = () => {
 	const baseUrl = pokemonUrl;
@@ -71,10 +91,11 @@ const fetchPokemon = () => {
 				pokemonCardButtonReserve.setAttribute('id', 'cardButtonReserve');
 				pokemonCardButtonReserve.innerText = 'Add to reserve';
 
-				// Find righgt color for the border
+				// Find righgt color for the border and background
 				const firstType = pokemon.type.find(type => type in typeColors);
 				if (firstType) {
-					pokemonDiv.style.border = `10px solid ${typeColors[firstType]}`;
+					pokemonDiv.style.border = `10px solid ${typeBorderColors[firstType]}`;
+					pokemonDiv.style.backgroundColor = `${typeColors[firstType]}`;
 				}
 
 				pokemonDiv.append(pokemonCardButton, pokemonCardButtonReserve)
@@ -97,7 +118,7 @@ searchPokemonInput.addEventListener('input', () => {
 	const searchString = searchPokemonInput.value;
 	pokemonList = JSON.parse(localStorage.getItem('pokemonList'));
 
-	const matchingPokemon = pokemonList.filter(pokemon => pokemon.name.includes(searchString));
+	const matchingPokemon = pokemonList.filter(pokemon => pokemon.name.toLowerCase().includes(searchString.toLowerCase()));
 
 	// Clear the existing content of the container
 	cardContainer.innerHTML = '';
@@ -127,13 +148,13 @@ searchPokemonInput.addEventListener('input', () => {
 		cardButtonDiv.setAttribute('class', 'button-div')
 		cardButtonDiv.setAttribute('id', 'buttonDiv')
 
-		
 		pokemonDiv.append(pokemonCardButton, pokemonCardButtonReserve)
 		cardContainer.append(pokemonDiv);
-		// Find righgt color for the border
+		// Find righgt color for the border and background
 		const firstType = pokemon.type.find(type => type in typeColors);
 		if (firstType) {
-			pokemonDiv.style.border = `10px solid ${typeColors[firstType]}`;
+			pokemonDiv.style.border = `10px solid ${typeBorderColors[firstType]}`;
+			pokemonDiv.style.backgroundColor = `${typeColors[firstType]}`;
 		}
 	});
 });
@@ -173,10 +194,11 @@ findChampionButton.addEventListener('click', () => {
 		cardButtonDiv.setAttribute('class', 'button-div')
 		cardButtonDiv.setAttribute('id', 'buttonDiv')
 
-		// Find righgt color for the border
+		// Find righgt color for the border and background
 		const firstType = pokemon.type.find(type => type in typeColors);
 		if (firstType) {
-			pokemonDiv.style.border = `10px solid ${typeColors[firstType]}`;
+			pokemonDiv.style.border = `10px solid ${typeBorderColors[firstType]}`;
+			pokemonDiv.style.backgroundColor = `${typeColors[firstType]}`;
 		}
 
 		pokemonDiv.append(pokemonCardButton, pokemonCardButtonReserve)
@@ -292,10 +314,31 @@ function addMyTeam() {
 		pokemonCardButtonRemove.setAttribute('id', 'cardButtonRemove')
 		pokemonCardButtonRemove.innerText = 'Remove'
 
-			// Find righgt color for the border
+		let upButton = document.createElement("button");
+        upButton.setAttribute('class', 'upButton')
+        upButton.innerText = "Up";
+        upButton.addEventListener("click", function() {
+            let prevSibling = pokemonDiv.previousElementSibling;
+            if (prevSibling !== null) {
+                myTeamDivCard.insertBefore(pokemonDiv, prevSibling);
+            }
+        });
+
+        let downButton = document.createElement("button");
+        downButton.setAttribute('class', 'downButton')
+        downButton.innerText = "Down";
+        downButton.addEventListener("click", function() {
+            let nextSibling = pokemonDiv.nextElementSibling;
+            if (nextSibling !== null) {
+                myTeamDivCard.insertBefore(nextSibling, pokemonDiv);
+            }
+        });
+
+			// Find righgt color for the border and background
 			const firstType = pokemon.type.find(type => type in typeColors);
 			if (firstType) {
-				pokemonDiv.style.border = `10px solid ${typeColors[firstType]}`;
+				pokemonDiv.style.border = `10px solid ${typeBorderColors[firstType]}`;
+				pokemonDiv.style.backgroundColor = `${typeColors[firstType]}`;
 			}
 
 		// If my team equals 3 display complete team text
@@ -312,7 +355,8 @@ function addMyTeam() {
 			completeTeamDisplayed = false; // reset the flag when the "Complete team" heading is hidden
 		});
 
-		pokemonDiv.append(pokemonCardButtonRemove)
+
+		pokemonDiv.append( upButton, downButton, pokemonCardButtonRemove)
 		myTeamDivCard.append(pokemonDiv);
 	});
 }
@@ -334,11 +378,13 @@ function addMyReserve() {
 		pokemonCardButtonRemove.setAttribute('class', 'card-button-remove')
 		pokemonCardButtonRemove.setAttribute('id', 'cardButtonRemove')
 		pokemonCardButtonRemove.innerText = 'Remove'
+		pokemonCardButtonRemove.style.marginTop = '1em';
 
-		// Find righgt color for the border
+		// Find righgt color for the border and background
 		const firstType = pokemon.type.find(type => type in typeColors);
 		if (firstType) {
-			pokemonDiv.style.border = `10px solid ${typeColors[firstType]}`;
+			pokemonDiv.style.border = `10px solid ${typeBorderColors[firstType]}`;
+			pokemonDiv.style.backgroundColor = `${typeColors[firstType]}`;
 		}
 
 		pokemonDiv.append(pokemonCardButtonRemove)

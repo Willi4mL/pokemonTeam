@@ -75,10 +75,9 @@ body {
 	background-color: #f0f0f0;
 	border-radius: 0.2em;
 	width: 13em;
-	height: 100%;
 	display: flex;
-	flex-direction: column;
-	margin:1.5em;
+	flex-wrap: wrap;
+	margin:1em;
 }
 
 .card-ability, .card-type {
@@ -91,7 +90,7 @@ body {
 	margin-top: 1em;
 }
 
-.card-button, .card-button-reserve, .card-button-remove {
+.card-button, .card-button-reserve, .card-button-remove{
 	padding:0.5em 1em;
 	width: 100%;
 }
@@ -106,13 +105,25 @@ body {
 .card-button-reserve {
 	background-color: #e3e2e2;
 	border:1px solid;
-	
+}
+
+.upButton, .downButton  {
+	padding:0.5em 1em;
+	margin-top: 1em;
+	width: 50%;
+	flex-wrap: wrap;
 }
 
 .card-button-remove {
-	background-color: #f36434;
+	background-color: #e3e2e2;
 	border:1px solid;
-	
+}
+
+.card-button:hover, .card-button-reserve:hover, .card-button-remove:hover, .upButton:hover, .downButton:hover {
+	cursor: pointer;
+	box-shadow: inset 1px 1px #000000;
+	box-shadow: inset -1px -1px #000000;
+	filter: brightness(103%);
 }
 
 .card-button:hover, .card-button-reserve:hover, .card-button-remove:hover {
@@ -134,12 +145,14 @@ body {
 
 .card-name {
 	text-transform: capitalize;
-	text-align: center;
+	margin-left: auto;
+    margin-right: auto;
 }
 
 .card-img {
-	align-self: center;
-	width: 60%;
+	width: 70%;
+	margin-left: auto;
+    margin-right: auto;
 }
 
 .content__my-team-section, .content__reserve-section {
@@ -151,7 +164,7 @@ body {
 
 }
 
-.constent__my-team-div-card, .content__my-reserve-div-card {
+.content__my-team-div-card, .content__my-reserve-div-card {
 	display: flex;
 	justify-content: center;
 	flex-wrap: wrap;
