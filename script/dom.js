@@ -255,7 +255,7 @@ const fetchPokemon = () => {
 				const pokemonList = JSON.parse(localStorage.getItem('pokemonList'));
 				const pokemon = pokemonList.find(pokemon => pokemon.name === event.target.parentNode.querySelector('#cardHeading').textContent);
 
-				if (myTeamList.length >= 2) {
+				if (myTeamList.length >= 3) {
 					const addButton = event.target;
 					let originalText = addButton.innerText;
 					let origianlColor = addButton.style.color;
