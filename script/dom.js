@@ -10,7 +10,6 @@ const myTeamSection = document.querySelector('#myTeamSection')
 const myTeamDivCard = document.querySelector('#myTeamDivCard')
 const myReserveDivCard = document.querySelector('#myReserveDivCard')
 const myTeamHeading = document.querySelector('#myTeamHeading')
-const fullTeam = document.querySelector('#fullTeam')
 
 // Visible or invisible 
 const invisible = 'none'
@@ -18,7 +17,6 @@ const visible = 'block'
 
 myTeamSection.style.display = invisible
 reserveSection.style.display = invisible
-fullTeam.style.display = invisible
 
 // Card border color
 const typeBorderColors = {
@@ -102,8 +100,10 @@ const fetchPokemon = () => {
 						let origianlColor = addButton.style.color;
 						addButton.innerText = '+1';
 						addButton.style.color = 'green'
+						addButton.disabled = true;
 						setTimeout(() => {
 							const newText = addButton.innerText;
+							addButton.disabled = false;
 							if (newText === '+1') {
 								addButton.innerText = originalText;
 								addButton.style.color = origianlColor;
@@ -202,10 +202,11 @@ const fetchPokemon = () => {
 	findChampionButton.addEventListener('click', () => {
 		searchPokemonNav.style.display = visible
 
-		// Clear content of the container
+		// Clear content inside containercand input field
 		cardContainer.innerHTML = '';
 		myTeamSection.style.display = invisible
 		reserveSection.style.display = invisible
+		searchPokemonInput.value = '';
 
 		// Dispaly everything from pokemonList in localstorage
 		let pokemonList = JSON.parse(localStorage.getItem('pokemonList')) || {};
@@ -259,15 +260,15 @@ const fetchPokemon = () => {
 					const addButton = event.target;
 					let originalText = addButton.innerText;
 					let origianlColor = addButton.style.color;
-					addButton.innerText = 'Complete team';
+					addButton.innerText = 'Your team is full';
 					addButton.style.color = 'red'
 					setTimeout(() => {
 						const newText = addButton.innerText;
-						if (newText === 'Complete team') {
+						if (newText === 'Your team is full') {
 							addButton.innerText = originalText;
 							addButton.style.color = origianlColor;
 						}
-					}, 800);
+					}, 1000);
 				}
 
 				if (myTeamList.length < 3) {
@@ -345,14 +346,13 @@ const fetchPokemon = () => {
 	const completeTeam = document.createElement('h3');
 	completeTeam.setAttribute('class', 'complete-team');
 	completeTeam.setAttribute('id', 'completeTeam');
-	completeTeam.innerText = 'Complete team';
-	completeTeam.style.display = invisible
+	completeTeam.innerText = 'You need 3 champions for your team';
+	// completeTeam.style.display = invisible
 	myTeamHeading.append(completeTeam);
 
 	function addMyTeam() {
 		// Add my team cards with removebutton
 		let myTeamList = JSON.parse(localStorage.getItem('myTeamList')) || {};
-		let completeTeamDisplayed = false;
 		Object.values(myTeamList).forEach(pokemon => {
 
 			const pokemonDiv = document.createElement('div');
@@ -398,16 +398,12 @@ const fetchPokemon = () => {
 
 			// If my team equals 3 display complete team text
 			if (myTeamList.length === 3) {
-				completeTeam.style.display = visible
-				completeTeamDisplayed = true;
+				// completeTeam.style.display = visible
+				completeTeam.innerText = 'Your team is complete'
 			}
 
 			pokemonCardButtonRemove.addEventListener('click', () => {
-				const completeTeamTextList = document.querySelectorAll('.complete-team');
-				completeTeamTextList.forEach(completeTeamText => {
-					completeTeamText.style.display = 'none';
-				});
-				completeTeamDisplayed = false; // reset the flag when the "Complete team" heading is hidden
+					completeTeam.innerText = 'You need 3 champions for your team'
 			});
 
 

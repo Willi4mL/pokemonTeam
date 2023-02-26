@@ -10,17 +10,6 @@ body {
 	background-size: cover;
 }
 
-/* Container full team */
-.content__full-team {
-	position:fixed;
-	left: 50%;
-    right: auto;
-	top: 50vh;
-	padding: 1em;
-	background-color: #f0f0f0;
-	border: 1px solid black;
-}
-
 /* Header */
 .head {
 	background-color:#ca3c32;
