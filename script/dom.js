@@ -389,7 +389,7 @@ function addMyTeam() {
 			}
 		});
 
-		// Find righgt color for the border and background
+		// Find right color for the border and background
 		const firstType = pokemon.type.find(type => type in typeColors);
 		if (firstType) {
 			pokemonDiv.style.border = `10px solid ${typeBorderColors[firstType]}`;
@@ -398,7 +398,6 @@ function addMyTeam() {
 
 		// If my team equals 3 display complete team text
 		if (myTeamList.length === 3) {
-			// completeTeam.style.display = visible
 			completeTeam.innerText = 'Your team is complete'
 		}
 
@@ -445,8 +444,9 @@ function addMyReserve() {
 				myTeamList.push(pokemon)
 
 				// Remove card from reserve
-				if(myTeamList.length <= 3) {
+				
 					const pokemonName = event.target.parentNode.querySelector('#cardHeading').textContent;
+					// Find the index of the pokemon to remove in the myTeamList array
 					const index = myTeamReserveList.findIndex(pokemon => pokemon.name === pokemonName);
 					if (index !== -1) {
 						// Remove the pokemon from the myTeamReserveList array
@@ -456,9 +456,6 @@ function addMyReserve() {
 						// Remove the pokemonDiv element from the DOM
 						event.target.parentNode.remove();
 					}
-
-				}
-
 				addMyTeam()
 			}
 		})
