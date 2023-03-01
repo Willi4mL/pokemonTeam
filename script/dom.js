@@ -148,8 +148,7 @@ const fetchPokemon = () => {
 				pokemonCardButtonReserve.innerText = 'Add to reserve';
 
 				//Change text inside reserve button
-				document.addEventListener('click', event => {
-					if (event.target.classList.contains('card-button-reserve')) {
+				pokemonCardButtonReserve.addEventListener('click', event => {
 						const addButton = event.target;
 						let originalText = addButton.innerText;
 						let origianlColor = addButton.style.color;
@@ -162,7 +161,6 @@ const fetchPokemon = () => {
 								addButton.style.color = origianlColor;
 							}
 						}, 800);
-					}
 				});
 
 				// Find righgt color for the border and background
@@ -250,8 +248,23 @@ searchPokemonInput.addEventListener('input', () => {
 
 		const pokemonCardButtonReserve = document.createElement('button')
 		pokemonCardButtonReserve.setAttribute('class', 'card-button-reserve')
-		pokemonCardButtonReserve.setAttribute('id', 'cardButtonReserve')
 		pokemonCardButtonReserve.innerText = 'Add to reserve'
+		pokemonCardButtonReserve.addEventListener('click', (event) => {
+			const addButton = event.target;
+			let originalText = addButton.innerText;
+			let origianlColor = addButton.style.color;
+			addButton.innerText = '+1';
+			addButton.style.color = 'green'
+			addButton.disabled = true;
+			setTimeout(() => {
+				const newText = addButton.innerText;
+				addButton.disabled = false;
+				if (newText === '+1') {
+					addButton.innerText = originalText;
+					addButton.style.color = origianlColor;
+				}
+			}, 800);
+		})
 
 		const cardButtonDiv = document.createElement('div')
 		cardButtonDiv.setAttribute('class', 'button-div')
@@ -269,7 +282,7 @@ searchPokemonInput.addEventListener('input', () => {
 });
 
 // FindChampion button
-findChampionButton.addEventListener('click', () => {
+findChampionButton.addEventListener('click', (event) => {
 	searchPokemonNav.style.display = visible
 
 	// Clear content inside containercand input field
@@ -287,13 +300,31 @@ findChampionButton.addEventListener('click', () => {
 		pokemonDiv.innerHTML =
 			`<h2 class="card-name" id="cardHeading">${pokemon.name}</h2>
 			<img class="card-img" id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
-			<p class="card-type" id="cardType">Type: ${pokemon.type}</p>
+			<p class="card-type" id="cardType">Type: ${pokemon.type.join(', ')}</p>
 			<p class="card-ability" id="cardAbility">Ability: ${pokemon.abilities.join(', ')}</p>`;
 
 		const pokemonCardButton = document.createElement('button')
 		pokemonCardButton.setAttribute('class', 'card-button')
-		pokemonCardButton.setAttribute('id', 'cardButton')
 		pokemonCardButton.innerText = 'Add to my team'
+		pokemonCardButton.addEventListener('click', (event) => {
+	let myTeamList = JSON.parse(localStorage.getItem('myTeamList')) || [];
+			if (myTeamList.length < 3) {
+				const addButton = event.target;
+				let originalText = addButton.innerText;
+				let origianlColor = addButton.style.color;
+				addButton.innerText = '+1';
+				addButton.style.color = 'green'
+				addButton.disabled = true;
+				setTimeout(() => {
+					const newText = addButton.innerText;
+					addButton.disabled = false;
+					if (newText === '+1') {
+						addButton.innerText = originalText;
+						addButton.style.color = origianlColor;
+					}
+				}, 800);
+			}
+		})
 
 		pokemonCardButton.addEventListener('click', (event) => {
 			let myTeamList = JSON.parse(localStorage.getItem('myTeamList')) || [];
@@ -334,6 +365,23 @@ findChampionButton.addEventListener('click', () => {
 		pokemonCardButtonReserve.setAttribute('class', 'card-button-reserve')
 		pokemonCardButtonReserve.setAttribute('id', 'cardButtonReserve')
 		pokemonCardButtonReserve.innerText = 'Add to reserve'
+	
+	pokemonCardButtonReserve.addEventListener('click', (event) => {
+		const addButton = event.target;
+		let originalText = addButton.innerText;
+		let origianlColor = addButton.style.color;
+		addButton.innerText = '+1';
+		addButton.style.color = 'green'
+		addButton.disabled = true;
+		setTimeout(() => {
+			const newText = addButton.innerText;
+			addButton.disabled = false;
+			if (newText === '+1') {
+				addButton.innerText = originalText;
+				addButton.style.color = origianlColor;
+			}
+		}, 800);
+	})
 
 		const cardButtonDiv = document.createElement('div')
 		cardButtonDiv.setAttribute('class', 'button-div')
