@@ -65,7 +65,8 @@ const typeColors = {
 // LocalStorage list and display divs
 let pokemonList = [];
 const fetchPokemon = async () => {
-	const pokemonAmount = 10;
+	const pokemonAmount = 1008;
+	myTeamButton.disabled = true
 
 	for (let i = 1; i <= pokemonAmount; i++) {
 		const url = `${pokemonUrl}${i}`;
@@ -139,13 +140,11 @@ const fetchPokemon = async () => {
 					// Save the updated myTeamList to localStorage
 					localStorage.setItem('myTeamList', JSON.stringify(myTeamList));
 				}
-
 			})
 			pokemonDiv.append(pokemonCardButton)
 			cardContainer.append(pokemonDiv)
 		}
 		addPokemonMyTeamList()
-
 
 		const pokemonCardButtonReserve = document.createElement('button');
 		pokemonCardButtonReserve.setAttribute('class', 'card-button-reserve');
@@ -187,18 +186,16 @@ const fetchPokemon = async () => {
 	}
 }
 
-fetchPokemon()
-addPokemonMyTeam()  // går detta?
-
-// window.addEventListener('load', () => {
-// 	myTeamButton.disabled = false;
-//   });
+// Enable myTeamButton after fetch
+fetchPokemon().then(() => {
+	myTeamButton.disabled = false
+})
+addPokemonMyTeam()
 
 // Search pokemon and display card
 searchPokemonInput.addEventListener('input', () => {
 	const searchString = searchPokemonInput.value;
 	pokemonList = JSON.parse(localStorage.getItem('pokemonList'));
-
 	const matchingPokemon = pokemonList.filter(pokemon => pokemon.name.toLowerCase().includes(searchString.toLowerCase()));
 
 	// Clear the existing content of the container
@@ -218,6 +215,25 @@ searchPokemonInput.addEventListener('input', () => {
 		const pokemonCardButton = document.createElement('button')
 		pokemonCardButton.setAttribute('class', 'card-button')
 		pokemonCardButton.innerText = 'Add to my team'
+		pokemonCardButton.addEventListener('click', (event) => {
+			let myTeamList = JSON.parse(localStorage.getItem('myTeamList')) || [];
+			if (myTeamList.length < 3) {
+				const addButton = event.target;
+				let originalText = addButton.innerText;
+				let origianlColor = addButton.style.color;
+				addButton.innerText = '+1';
+				addButton.style.color = 'green'
+				addButton.disabled = true;
+				setTimeout(() => {
+					const newText = addButton.innerText;
+					addButton.disabled = false;
+					if (newText === '+1') {
+						addButton.innerText = originalText;
+						addButton.style.color = origianlColor;
+					}
+				}, 500);
+			}
+		})
 
 		pokemonCardButton.addEventListener('click', (event) => {
 			let myTeamList = JSON.parse(localStorage.getItem('myTeamList')) || [];
@@ -256,6 +272,7 @@ searchPokemonInput.addEventListener('input', () => {
 
 		const pokemonCardButtonReserve = document.createElement('button')
 		pokemonCardButtonReserve.setAttribute('class', 'card-button-reserve')
+		pokemonCardButtonReserve.setAttribute('id', 'cardButtonReserve')
 		pokemonCardButtonReserve.innerText = 'Add to reserve'
 		pokemonCardButtonReserve.addEventListener('click', (event) => {
 			const addButton = event.target;
@@ -271,23 +288,24 @@ searchPokemonInput.addEventListener('input', () => {
 					addButton.innerText = originalText;
 					addButton.style.color = origianlColor;
 				}
-			}, 800);
+			}, 500);
 		})
 
 		const cardButtonDiv = document.createElement('div')
 		cardButtonDiv.setAttribute('class', 'button-div')
 		cardButtonDiv.setAttribute('id', 'buttonDiv')
 
-		pokemonDiv.append(pokemonCardButton, pokemonCardButtonReserve)
-		cardContainer.append(pokemonDiv);
 		// Find righgt color for the border and background
 		const firstType = pokemon.type.find(type => type in typeColors);
 		if (firstType) {
 			pokemonDiv.style.border = `10px solid ${typeBorderColors[firstType]}`;
 			pokemonDiv.style.backgroundColor = `${typeColors[firstType]}`;
 		}
+
+		pokemonDiv.append(pokemonCardButton, pokemonCardButtonReserve)
+		cardContainer.append(pokemonDiv);
 	});
-});
+})
 
 // FindChampion button
 findChampionButton.addEventListener('click', (event) => {
@@ -373,7 +391,6 @@ findChampionButton.addEventListener('click', (event) => {
 		pokemonCardButtonReserve.setAttribute('class', 'card-button-reserve')
 		pokemonCardButtonReserve.setAttribute('id', 'cardButtonReserve')
 		pokemonCardButtonReserve.innerText = 'Add to reserve'
-
 		pokemonCardButtonReserve.addEventListener('click', (event) => {
 			const addButton = event.target;
 			let originalText = addButton.innerText;
@@ -402,7 +419,6 @@ findChampionButton.addEventListener('click', (event) => {
 			pokemonDiv.style.backgroundColor = `${typeColors[firstType]}`;
 		}
 
-
 		pokemonDiv.append(pokemonCardButton, pokemonCardButtonReserve)
 		cardContainer.append(pokemonDiv);
 	});
@@ -413,10 +429,8 @@ function addPokemonMyTeam() {
 	const pokemonCardButton = document.createElement('button')
 	pokemonCardButton.setAttribute('class', 'card-button')
 	pokemonCardButton.innerText = 'Add to my team'
-
 	pokemonCardButton.addEventListener('click', (event) => {
 		let myTeamList = JSON.parse(localStorage.getItem('myTeamList')) || [];
-
 		const pokemonList = JSON.parse(localStorage.getItem('pokemonList'));
 		const pokemonNameHeading = event.target.parentNode.querySelector('#cardHeading');
 		const pokemon = pokemonList.find(pokemon => pokemon.name === pokemonNameHeading.textContent);
@@ -454,20 +468,16 @@ function addPokemonMyTeam() {
 // Add pokemons to my reserve in localstorage
 function addPokemonMyTeamReserve() {
 	let myTeamReserveList = JSON.parse(localStorage.getItem('myTeamReserveList')) || [];
-
 	document.addEventListener('click', (event) => {
 		if (event.target.id === 'cardButtonReserve') {
 			const pokemonList = JSON.parse(localStorage.getItem('pokemonList'));
 			const pokemon = pokemonList.find(pokemon => pokemon.name === event.target.parentNode.querySelector('#cardHeading').textContent);
 
-			// Add the pokemon object to the myTeamList array
 			myTeamReserveList.push(pokemon);
-			// Save the updated myTeamList to localStorage
 			localStorage.setItem('myTeamReserveList', JSON.stringify(myTeamReserveList))
 
 		} else if (event.target.id === 'cardButtonRemoveReserve') {
 			const pokemonName = event.target.parentNode.querySelector('#cardHeading').textContent;
-			// Find the index of the pokemon to remove in the myTeamList array
 			const index = myTeamReserveList.findIndex(pokemon => pokemon.name === pokemonName);
 			if (index !== -1) {
 				// Remove the pokemon from the myTeamReserveList array
@@ -484,7 +494,6 @@ addPokemonMyTeamReserve()
 addPokemonMyTeam()
 
 // MyTeam button
-
 myTeamButton.addEventListener('click', () => {
 	searchPokemonNav.style.display = "none";
 
@@ -512,7 +521,6 @@ function addMyTeam() {
 	// Add my team cards with removebutton
 	let myTeamList = JSON.parse(localStorage.getItem('myTeamList')) || {};
 	myTeamList.forEach(pokemon => {
-
 		const imgPen = document.createElement('img')
 		imgPen.src = "images/pen.png"
 
@@ -526,15 +534,12 @@ function addMyTeam() {
 				<p class="card-type" id="cardType">Type: ${pokemon.type}</p>
 				<p class="card-ability" id="cardAbility">Ability: ${pokemon.abilities.join(', ')}</p>`;
 
-
 		const pokemonCardButtonRemove = document.createElement('button')
 		pokemonCardButtonRemove.setAttribute('class', 'card-button-remove')
-		// pokemonCardButtonRemove.setAttribute('id', 'cardButtonRemoveTeam')  - funkar ej att ha flera samma id
 		pokemonCardButtonRemove.innerText = 'Remove'
 		pokemonCardButtonRemove.addEventListener('click', (event) => {
 			let myTeamList = JSON.parse(localStorage.getItem('myTeamList')) || [];
 			let pokemonName = event.target.parentNode.querySelector('#cardHeading').textContent;
-			// Find the index of the pokemon to remove in the myTeamList
 			const index = myTeamList.findIndex(pokemon => pokemon.name === pokemonName);
 			if (index !== -1) {
 				console.log('cardButtonRemoveTeam. removing pokemon', index, myTeamList[index].name)
@@ -547,12 +552,6 @@ function addMyTeam() {
 			}
 		})
 
-		// const editNameButton = document.createElement('button')
-		// editNameButton.setAttribute('class', 'edit-name-button')
-		// editNameButton.innerText = 'Edit name'
-
-
-		////////////////////////////////////////Change pokemon
 		const editNameButton = pokemonDiv.querySelector('#editName')
 		const pokemonNameHeading = pokemonDiv.querySelector('#cardHeading');
 
@@ -571,18 +570,10 @@ function addMyTeam() {
 					localStorage.setItem('myTeamList', JSON.stringify(myTeamList))
 					editNameInput.replaceWith(pokemonNameHeading)
 				}
-
 			});
 			pokemonNameHeading.replaceWith(editNameInput)
 			editNameInput.focus()
-
 		})
-
-
-
-		////////////////////////////////////////
-
-
 
 		let upButton = document.createElement("button");
 		upButton.setAttribute('class', 'upButton')
@@ -651,7 +642,6 @@ function addMyReserve() {
 
 				// Remove card from reserve
 				const pokemonName = event.target.parentNode.querySelector('#cardHeading').textContent;
-				// Find the index of the pokemon to remove in the myTeamList array
 				const index = myTeamReserveList.findIndex(pokemon => pokemon.name === pokemonName);
 				if (index !== -1) {
 					// Remove the pokemon from the myTeamReserveList array
@@ -673,7 +663,6 @@ function addMyReserve() {
 
 		addPokemonMyTeam()
 		pokemonDiv.append(pokemonCardButtonRemove)
-
 		myReserveDivCard.append(pokemonDiv);
 	});
 }
