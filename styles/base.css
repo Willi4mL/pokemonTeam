@@ -68,7 +68,9 @@ body {
 }
 
 /* Buttons */
-.content__my-team, .content__find-champion, .content__link-top {
+.content__my-team, 
+.content__find-champion, 
+.content__link-top {
 	padding:0.4em 0.3em;
 	font-size: 1.2em;
 	border-radius: 0.2em;
@@ -77,7 +79,9 @@ body {
 	box-shadow: inset 1px 1px 4px #000000;
 }
 
-.content__my-team:hover, .content__find-champion:hover, .content__link-top:hover {
+.content__my-team:hover, 
+.content__find-champion:hover, 
+.content__link-top:hover {
 	cursor: pointer;
 	background-color: #ca3c32;
 	box-shadow: 2px 1px 6px #000000;
@@ -115,13 +119,20 @@ body {
 	margin:1em;
 }
 
-.card-ability, .card-type {
+.card-ability, .card-type, .card-hp, .card-attack {
 	padding: 0 0.5em;
+	font-family:arial;
 }
 
 /* Text inside card */
 .card-type {
-	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+}
+
+.stat-container{
+	display: flex;
+	justify-content: space-around;
+	padding: 0.5em 0;
 }
 
 /* Inputfield */
@@ -139,8 +150,6 @@ body {
 
 .edit-name:hover {
 	cursor: pointer;
-	border:1px solid #000000;
-	border-radius: 0.2em;
 }
 
 /* Button inside card */
@@ -149,9 +158,13 @@ body {
 	margin-top: 1em;
 }
 
-.card-button, .card-button-reserve, .card-button-remove{
+.card-button, 
+.card-button-reserve, 
+.card-button-remove, 
+.card-button-remove-reserve{
 	padding:0.5em 1em;
 	width: 100%;
+	font-family: arial;
 }
 
 .card-button {
@@ -171,6 +184,7 @@ body {
 	margin-top: 1em;
 	width: 50%;
 	flex-wrap: wrap;
+	font-family:Arial;
 }
 
 .card-button-remove {
@@ -178,18 +192,20 @@ body {
 	border:1px solid;
 }
 
-.card-button:hover, .card-button-reserve:hover, .card-button-remove:hover, .upButton:hover, .downButton:hover {
-	cursor: pointer;
-	box-shadow: inset 1px 1px #000000;
-	box-shadow: inset -1px -1px #000000;
-	filter: brightness(103%);
+.card-button-remove-reserve {
+	background-color: #e3e2e2;
+	border:1px solid;
+	margin-top: 1em;
 }
 
-.card-button:hover, .card-button-reserve:hover, .card-button-remove:hover {
+.card-button:hover, 
+.card-button-reserve:hover, 
+.card-button-remove:hover, 
+.upButton:hover, 
+.downButton:hover,      
+.card-button-remove-reserve:hover {
 	cursor: pointer;
-	box-shadow: inset 1px 1px #000000;
-	box-shadow: inset -1px -1px #000000;
-	filter: brightness(103%);
+	background-color: #f8f5f5;
 }
 
 .content__my-team-section {

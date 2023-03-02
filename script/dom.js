@@ -78,20 +78,32 @@ const fetchPokemon = async () => {
 		const url = `${pokemonUrl}${i}`;
 		const response = await fetch(url);
 		const data = await response.json();
+		const attack = data.stats.filter(stat => stat.stat.name === 'attack');
+		const hp = data.stats.filter(stat => stat.stat.name === 'hp')
+		const attackValue = attack.map(stat => stat.base_stat);
+		const hpValue = hp.map(stat => stat.base_stat);
 		const pokemon = {
 			name: data.name,
 			image: data.sprites.front_default,
 			type: data.types.map(type => type.type.name),
 			abilities: data.abilities.map(ability => ability.ability.name),
+			attackStat: attackValue,
+			hpStat: hpValue
 		}
+		const statAttack = JSON.stringify(pokemon.attackStat)
+		const statHp = JSON.stringify(pokemon.hpStat)
 
 		const pokemonDiv = document.createElement('div');
 		pokemonDiv.setAttribute('class', 'div-card');
 		pokemonDiv.innerHTML =
 			`<h2 class="card-name" id="cardHeading">${pokemon.name}</h2>
 			<img class="card-img" id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
-			<p class="card-type" id="cardType">Type: ${pokemon.type.join(', ')}</p>
-			<p class="card-ability" id="cardAbility">Ability: ${pokemon.abilities.join(', ')}</p>`;
+			<div class="stat-container">
+			<p class="card-hp" id="cardHp"><strong>Hp:</strong> ${statHp.replace(/[\[\]']+/g, '')}</p>
+			<p class="card-attack" id="cardAttack"><strong>Attack:</strong> ${statAttack.replace(/[\[\]']+/g, '')}</p>
+			</div>
+			<p class="card-type" id="cardType"><strong>Type:</strong> ${pokemon.type.join(', ')}</p>
+			<p class="card-ability" id="cardAbility"><strong>Ability:</strong> ${pokemon.abilities.join(', ')}</p>`;
 
 		function addPokemonMyTeamList() {
 			const pokemonCardButton = document.createElement('button');
@@ -182,13 +194,12 @@ const fetchPokemon = async () => {
 
 		pokemonDiv.append(pokemonCardButtonReserve)
 		cardContainer.append(pokemonDiv)
-
 		pokemonList.push(pokemon);
 
 		// Save the list to local storage
 		localStorage.setItem('pokemonList', JSON.stringify(pokemonList));
 
-		console.log('debug 2')
+		console.log('Count pokemon')
 	}
 }
 
@@ -211,15 +222,21 @@ searchPokemonInput.addEventListener('input', () => {
 
 	// Create a new div for each matching pokemon and append it to the container
 	matchingPokemon.forEach(pokemon => {
+		const statAttack = JSON.stringify(pokemon.attackStat)
+		const statHp = JSON.stringify(pokemon.hpStat)
+
 		const pokemonDiv = document.createElement('div');
 		pokemonDiv.setAttribute('class', 'div-card')
 		pokemonDiv.setAttribute('id', 'divCard')
 		pokemonDiv.innerHTML =
 			`<h2 class="card-name" id="cardHeading">${pokemon.name}</h2>
-		<img class="card-img" id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
-		<p class="card-type" id="cardType">Type: ${pokemon.type}</p>
-		<p class="card-ability" id="cardAbility">Ability: ${pokemon.abilities.join(', ')}</p>`;
-
+			<img class="card-img" id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
+			<div class="stat-container">
+			<p class="card-hp" id="cardHp"><strong>Hp:</strong> ${statHp.replace(/[\[\]']+/g, '')}</p>
+			<p class="card-attack" id="cardAttack"><strong>Attack:</strong> ${statAttack.replace(/[\[\]']+/g, '')}</p>
+			</div>
+			<p class="card-type" id="cardType"><strong>Type:</strong> ${pokemon.type.join(', ')}</p>
+			<p class="card-ability" id="cardAbility"><strong>Ability:</strong> ${pokemon.abilities.join(', ')}</p>`;
 		const pokemonCardButton = document.createElement('button')
 		pokemonCardButton.setAttribute('class', 'card-button')
 		pokemonCardButton.innerText = 'Add to my team'
@@ -328,14 +345,21 @@ findChampionButton.addEventListener('click', (event) => {
 	// Dispaly everything from pokemonList in localstorage
 	let pokemonList = JSON.parse(localStorage.getItem('pokemonList')) || {};
 	Object.values(pokemonList).forEach(pokemon => {
+		const statAttack = JSON.stringify(pokemon.attackStat)
+		const statHp = JSON.stringify(pokemon.hpStat)
+
 		const pokemonDiv = document.createElement('div');
 		pokemonDiv.setAttribute('class', 'div-card')
 		pokemonDiv.setAttribute('id', 'divCard')
 		pokemonDiv.innerHTML =
 			`<h2 class="card-name" id="cardHeading">${pokemon.name}</h2>
-			<img class="card-img" id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
-			<p class="card-type" id="cardType">Type: ${pokemon.type.join(', ')}</p>
-			<p class="card-ability" id="cardAbility">Ability: ${pokemon.abilities.join(', ')}</p>`;
+		<img class="card-img" id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
+		<div class="stat-container">
+		<p class="card-hp" id="cardHp"><strong>Hp:</strong> ${statHp.replace(/[\[\]']+/g, '')}</p>
+		<p class="card-attack" id="cardAttack"><strong>Attack:</strong> ${statAttack.replace(/[\[\]']+/g, '')}</p>
+		</div>
+		<p class="card-type" id="cardType"><strong>Type:</strong> ${pokemon.type.join(', ')}</p>
+		<p class="card-ability" id="cardAbility"><strong>Ability:</strong> ${pokemon.abilities.join(', ')}</p>`;
 
 		const pokemonCardButton = document.createElement('button')
 		pokemonCardButton.setAttribute('class', 'card-button')
@@ -527,20 +551,26 @@ myTeamHeading.append(completeTeam);
 
 function addMyTeam() {
 	// Add my team cards with removebutton
-	let myTeamList = JSON.parse(localStorage.getItem('myTeamList')) || {};
+	let myTeamList = JSON.parse(localStorage.getItem('myTeamList')) || [];;
 	myTeamList.forEach(pokemon => {
+
 		const imgPen = document.createElement('img')
 		imgPen.src = "images/pen.png"
-
 		const pokemonDiv = document.createElement('div');
 		pokemonDiv.setAttribute('class', 'div-card');
 		pokemonDiv.setAttribute('id', 'divCard');
+		const statAttack = JSON.stringify(pokemon.attackStat)
+		const statHp = JSON.stringify(pokemon.hpStat)
 		pokemonDiv.innerHTML =
 			`<h2 class="card-name" id="cardHeading">${pokemon.name}</h2>
 			<img class="edit-name" id="editName" src="${imgPen.src}"></img>
-				<img class="card-img" id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
-				<p class="card-type" id="cardType">Type: ${pokemon.type}</p>
-				<p class="card-ability" id="cardAbility">Ability: ${pokemon.abilities.join(', ')}</p>`;
+			<img class="card-img" id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
+			<div class="stat-container">
+			<p class="card-hp" id="cardHp"><strong>Hp:</strong> ${statHp.replace(/[\[\]']+/g, '')}</p>
+			<p class="card-attack" id="cardAttack"><strong>Attack:</strong> ${statAttack.replace(/[\[\]']+/g, '')}</p>
+			</div>
+			<p class="card-type" id="cardType"><strong>Type:</strong> ${pokemon.type.join(', ')}</p>
+			<p class="card-ability" id="cardAbility"><strong>Ability:</strong> ${pokemon.abilities.join(', ')}</p>`;
 
 		const pokemonCardButtonRemove = document.createElement('button')
 		pokemonCardButtonRemove.setAttribute('class', 'card-button-remove')
@@ -550,7 +580,6 @@ function addMyTeam() {
 			let pokemonName = event.target.parentNode.querySelector('#cardHeading').textContent;
 			const index = myTeamList.findIndex(pokemon => pokemon.name === pokemonName);
 			if (index !== -1) {
-				console.log('cardButtonRemoveTeam. removing pokemon', index, myTeamList[index].name)
 				// Remove the pokemon from the myTeamList
 				myTeamList.splice(index, 1);
 				// Save the updated myTeamList to localStorage
@@ -628,17 +657,24 @@ function addMyReserve() {
 	// Add my reserve
 	let myTeamReserveList = JSON.parse(localStorage.getItem('myTeamReserveList')) || {};
 	Object.values(myTeamReserveList).forEach(pokemon => {
+		const statAttack = JSON.stringify(pokemon.attackStat)
+		const statHp = JSON.stringify(pokemon.hpStat)
+
 		const pokemonDiv = document.createElement('div');
 		pokemonDiv.setAttribute('class', 'div-card');
 		pokemonDiv.setAttribute('id', 'divCard');
 		pokemonDiv.innerHTML =
 			`<h2 class="card-name" id="cardHeading">${pokemon.name}</h2>
-				<img class="card-img" id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
-				<p class="card-type" id="cardType">Type: ${pokemon.type}</p>
-				<p class="card-ability" id="cardAbility">Ability: ${pokemon.abilities.join(', ')}</p>`;
+			<img class="card-img" id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
+			<div class="stat-container">
+			<p class="card-hp" id="cardHp"><strong>Hp:</strong> ${statHp.replace(/[\[\]']+/g, '')}</p>
+			<p class="card-attack" id="cardAttack"><strong>Attack:</strong> ${statAttack.replace(/[\[\]']+/g, '')}</p>
+			</div>
+			<p class="card-type" id="cardType"><strong>Type:</strong> ${pokemon.type.join(', ')}</p>
+			<p class="card-ability" id="cardAbility"><strong>Ability:</strong> ${pokemon.abilities.join(', ')}</p>`;
 
 		const pokemonCardButtonRemove = document.createElement('button')
-		pokemonCardButtonRemove.setAttribute('class', 'card-button-remove')
+		pokemonCardButtonRemove.setAttribute('class', 'card-button-remove-reserve')
 		pokemonCardButtonRemove.setAttribute('id', 'cardButtonRemoveReserve')
 		pokemonCardButtonRemove.innerText = 'Remove'
 
