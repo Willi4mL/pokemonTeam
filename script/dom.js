@@ -61,12 +61,18 @@ const typeColors = {
 	steel: '#EEEEEE',
 	flying: '#FFFFF3'
 }
+let myTeamOrgText = myTeamButton.innerText
+function loadButton() {
+	myTeamButton.disabled = true
+	myTeamButton.innerText = 'Loading'
+	myTeamButton.setAttribute('class', 'loading-button')
+}
 
 // LocalStorage list and display divs
 let pokemonList = [];
 const fetchPokemon = async () => {
 	const pokemonAmount = 1008;
-	myTeamButton.disabled = true
+	loadButton()
 
 	for (let i = 1; i <= pokemonAmount; i++) {
 		const url = `${pokemonUrl}${i}`;
@@ -189,6 +195,8 @@ const fetchPokemon = async () => {
 // Enable myTeamButton after fetch
 fetchPokemon().then(() => {
 	myTeamButton.disabled = false
+	myTeamButton.innerText = myTeamOrgText
+	myTeamButton.setAttribute('class', 'content__my-team')
 })
 addPokemonMyTeam()
 

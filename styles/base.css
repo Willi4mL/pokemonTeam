@@ -23,6 +23,43 @@ body {
 	width: max(20vw, 15em, 15rem);
 }
 
+/* Loading myteam button while fetch */
+.loading-button {
+	padding:0.4em 0.3em;
+	font-size: 1.2em;
+	border-radius: 0.2em;
+	color: #f0f0f0; 
+	background-color: #3a5ca8;
+	box-shadow: inset 1px 1px 4px #000000;
+	opacity: 0.9;
+	width: 7em;
+  }
+
+  .loading-button::after {
+	content: ' .';
+	animation: dots 2s infinite;
+  }
+
+  @keyframes dots {
+	0%, 20% {
+	  color: #00000000;
+	  text-shadow:
+		0.4em 0 0 #00000000,
+		0.8em 0 0 #00000000;}
+	40% {
+	  color: #ffffff;
+	  text-shadow:
+		0.4em 0 0 #00000000,
+		0.8em 0 0 #00000000;}
+	60% {
+	  text-shadow:
+		0.4em 0 0 #ffffff,
+		0.8em 0 0 #00000000;}
+	80%, 100% {
+	  text-shadow:
+		0.4em 0 0 #ffffff,
+		0.8em 0 0 #ffffff;}}
+  
 /* Buttons find and MyTeam */
 .content__button {
 	margin-top: 1em;
