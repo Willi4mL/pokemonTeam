@@ -187,6 +187,13 @@ body {
 	flex-wrap: wrap;
 	font-family:Arial;
 	color:#000000;
+	border-radius: 0;
+	border: 1px solid black;
+	border-bottom: 0;
+}
+
+.upButton {
+	border-right: 0;
 }
 
 .card-button-remove {
