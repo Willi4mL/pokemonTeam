@@ -560,7 +560,7 @@ function addMyTeam() {
 		const statAttack = JSON.stringify(pokemon.attackStat)
 		const statHp = JSON.stringify(pokemon.hpStat)
 		pokemonDiv.innerHTML =
-		`<h2 class="card-name" id="cardHeading">${pokemon.name}</h2>
+			`<h2 class="card-name" id="cardHeading">${pokemon.name}</h2>
 		<img class="edit-name" id="editName" src="${imgPen.src}"></img>
 		<img class="card-img" id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
 		<div class="stat-container">
