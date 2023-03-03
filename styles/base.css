@@ -242,14 +242,14 @@ body {
 	margin-left: 2em;
 	margin-bottom: 1em;
 	padding: 1em;
-	background-color: #171717;
-
+	background-color: #171717bd;
 }
 
 .content__my-team-div-card, .content__my-reserve-div-card {
 	display: flex;
 	justify-content: center;
 	flex-wrap: wrap;
+	padding-bottom: 0.5em;
 }
 
 .content__my-team-heading, .content__my-reservelist {

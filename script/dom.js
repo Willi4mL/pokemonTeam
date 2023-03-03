@@ -198,8 +198,6 @@ const fetchPokemon = async () => {
 
 		// Save the list to local storage
 		localStorage.setItem('pokemonList', JSON.stringify(pokemonList));
-
-		console.log('Count pokemon')
 	}
 }
 
@@ -562,15 +560,16 @@ function addMyTeam() {
 		const statAttack = JSON.stringify(pokemon.attackStat)
 		const statHp = JSON.stringify(pokemon.hpStat)
 		pokemonDiv.innerHTML =
-			`<h2 class="card-name" id="cardHeading">${pokemon.name}</h2>
-			<img class="edit-name" id="editName" src="${imgPen.src}"></img>
-			<img class="card-img" id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
-			<div class="stat-container">
-			<p class="card-hp" id="cardHp"><strong>Hp:</strong> ${statHp.replace(/[\[\]']+/g, '')}</p>
-			<p class="card-attack" id="cardAttack"><strong>Attack:</strong> ${statAttack.replace(/[\[\]']+/g, '')}</p>
-			</div>
-			<p class="card-type" id="cardType"><strong>Type:</strong> ${pokemon.type.join(', ')}</p>
-			<p class="card-ability" id="cardAbility"><strong>Ability:</strong> ${pokemon.abilities.join(', ')}</p>`;
+		`<h2 class="card-name" id="cardHeading">${pokemon.name}</h2>
+		<img class="edit-name" id="editName" src="${imgPen.src}"></img>
+		<img class="card-img" id="cardImg" src="${pokemon.image}" alt="${pokemon.name}">
+		<div class="stat-container">
+		<p class="card-hp" id="cardHp"><strong>Hp:</strong> ${statHp.replace(/[\[\]']+/g, '')}</p>
+		<p class="card-attack" id="cardAttack"><strong>Attack:</strong> ${statAttack.replace(/[\[\]']+/g, '')}</p>
+		</div>
+		<p class="card-type" id="cardType"><strong>Type:</strong> ${pokemon.type.join(', ')}</p>
+		<p class="card-ability" id="cardAbility"><strong>Ability:</strong> ${pokemon.abilities.join(', ')}</p>`;
+		imgPen.setAttribute("title", "Edit name");
 
 		const pokemonCardButtonRemove = document.createElement('button')
 		pokemonCardButtonRemove.setAttribute('class', 'card-button-remove')
