@@ -165,6 +165,7 @@ body {
 	padding:0.5em 1em;
 	width: 100%;
 	font-family: arial;
+	color:#000000;
 }
 
 .card-button {
@@ -185,6 +186,7 @@ body {
 	width: 50%;
 	flex-wrap: wrap;
 	font-family:Arial;
+	color:#000000;
 }
 
 .card-button-remove {
