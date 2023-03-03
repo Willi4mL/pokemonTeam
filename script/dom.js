@@ -71,7 +71,7 @@ function loadButton() {
 // LocalStorage list and display divs
 let pokemonList = [];
 const fetchPokemon = async () => {
-	const pokemonAmount = 1008;
+	const pokemonAmount = 493;
 	loadButton()
 
 	for (let i = 1; i <= pokemonAmount; i++) {
